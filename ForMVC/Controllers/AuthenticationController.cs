@@ -13,16 +13,10 @@ namespace ForMVC.Controllers
     public class AuthenticationController : Controller
     {
         private readonly IMediator _mediator;
-        private readonly ILocalStorageService _localStorageService;
-        private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IHttpContextAccessor httpContextAccessor;
-        public AuthenticationController(IMediator mediator, ILocalStorageService localStorageService, 
-            IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory)
+        public AuthenticationController(IMediator mediator)
         {
             _mediator=mediator;
-            _localStorageService=localStorageService;
-            this.httpContextAccessor=httpContextAccessor;
-            _httpClientFactory = httpClientFactory;
+        
         }
         [AllowAnonymous]
         public IActionResult Index()
@@ -40,18 +34,14 @@ namespace ForMVC.Controllers
                 if(response.Data.Roles.Contains("Admin") || response.Data.Roles.Contains("admin"))
                 {
 
-                    _localStorageService.SetStorageValue("token", response.Data.AccessToken);
-                    //HttpContext.Response.Headers.Add("Authorization", $"Bearer {response.Data.AccessToken}");
+                  
                     HttpContext.Session.SetString("Token",  response.Data.AccessToken);
-
-                    //var httpClient = _httpClientFactory.CreateClient();
-                    //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", response.Data.AccessToken);
 
                     return RedirectToAction("Admin", "Product");
                 }
                 else if(response.Data.Roles.Contains("User") || response.Data.Roles.Contains("user"))
                 {
-                    //_localStorageService.SetStorageValue("token", response.Data.AccessToken);
+                  
                     return RedirectToAction("User", "Product");
                 }
                

@@ -19,17 +19,5 @@ namespace ForMVC.Action_Filter
             }
 
         }
-
-        //public override void OnActionExecuting(ActionExecutingContext filterContext)
-        //{
-        //    string token = filterContext.HttpContext.Request.Headers["Authorization"];
-        //    var request = filterContext.HttpContext.Request;
-        //    var authHeader = request.Headers["Authorization"]; 
-        //    if (string.IsNullOrEmpty(authHeader) )
-        //    { // Unauthorized access,
-        //      filterContext.Result = new RedirectResult("~/Authentication/Index"); 
-        //    }
-        //}
-
     }
 }

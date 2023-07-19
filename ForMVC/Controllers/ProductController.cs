@@ -19,17 +19,12 @@ namespace TaskProject.Api.Controllers
     public class ProductController : Controller
     {
         private readonly IMediator _mediator;
-        private readonly ILocalStorageService _localStorageService;
-        private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+       
 
-        public ProductController(IMediator mediator, ILocalStorageService localStorageService
-            , IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
+        public ProductController(IMediator mediator)
         {
             _mediator=mediator;
-            _localStorageService=localStorageService;
-            _httpClientFactory=httpClientFactory;
-            _httpContextAccessor=httpContextAccessor;
+         
         }
         [HttpGet]
         public async Task<IActionResult> User()
@@ -40,9 +35,6 @@ namespace TaskProject.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Admin()
         {
-            var token2 = Request.Cookies["token"];
-            var token = _localStorageService.GetStorageValue<string>("token");
-            _httpContextAccessor.HttpContext.Request.Headers["Authorization"] = $"Bearer {token}";
  
             var response = await _mediator.Send(new GetProductListQuery());
             return View(response.Data);
