@@ -1,0 +1,67 @@
+﻿<!-- login.cshtml -->
+@{
+    Layout = "_Layout";
+}
+@model TaskProject.Core.Features.Authentication.Command.Models.SignInCommand
+
+<head>
+    <link rel="stylesheet" href="~/css/login.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" integrity="sha512-T9B4u5fP2DDMIesvslsXpF09Ax4gT6JrAyy4U+1RGH4md4K1nXe6g6I5wwIKHHS0Q9jGJ9++H2enXwwPY0WYKg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <h3>Login</h3>
+
+    <form method="post" asp-action="Login" asp-controller="Authentication">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="Username" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="Password" class="form-control" />
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+    </form>
+
+    <!-- Button for Registration -->
+    <div class="text-center">
+        <a href="/ApplicationUser" class="btn btn-link">Register</a>
+    </div>
+
+    <!-- Bootstrap modal for error message -->
+    <div class="modal fade" id="errorMessageModal" tabindex="-1" role="dialog" aria-labelledby="errorMessageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorMessageModalLabel">Incorrect Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    The password you entered is incorrect. Please try again.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js" integrity="sha512-NYiZbt2z9sA5s94VqsG0x33BZM28X40AqHjshv3QXwp9eStvjsREt3gJhM2sgOnOfbu7xRAxTCmRmnWhK/wNdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Custom script -->
+    <script>
+        // Check for query parameter to show error message
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+        if (error) {
+            $('#errorMessageModal').modal('show'); // Explicitly call show() method
+            setTimeout(function () {
+                $('#errorMessageModal').modal('hide');
+                window.location.href = '/Authentication/Index';
+            }, 2000);
+        }
+    </script>
+</body>

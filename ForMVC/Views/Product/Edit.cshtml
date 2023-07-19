@@ -1,0 +1,123 @@
+﻿@model TaskProject.Core.Features.Products.Queries.Results.GetProductListResponse
+
+@{
+    ViewData["Title"] = "Edit Product";
+    Layout = "_Layout";
+}
+
+<h1>Edit Product</h1>
+
+<form asp-controller="Product" asp-action="Update" method="post" enctype="multipart/form-data" class="edit-form">
+    <div class="form-group">
+        <label for="id">ID</label>
+        <input type="text" class="form-control" id="id" name="id" value="@Model.Id" readonly>
+    </div>
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" name="name" value="@Model.Name" required>
+    </div>
+    <div class="form-group">
+        <label for="price">Price</label>
+        <input type="text" class="form-control" id="price" name="price" value="@Model.Price" required>
+    </div>
+    <div class="form-group">
+        <label for="availableQuantity">Available Quantity</label>
+        <input type="text" class="form-control" id="availableQuantity" name="availableQuantity" value="@Model.Availablequantity" required>
+    </div>
+    <div class="form-group">
+        <label for="quantityLimit">Quantity Limit</label>
+        <input type="text" class="form-control" id="quantityLimit" name="quantityLimit" value="@Model.Quantitylimit" required>
+    </div>
+    <div class="form-group">
+        <label for="image">Image</label>
+        <img src="@Model.ImageUrl" alt="Product Image" class="image-preview" id="previewImage">
+        <input type="file" class="form-control-file" id="imageInput" name="image" accept="image/*">
+        <button type="button" class="btn btn-danger" id="removeImageButton">Remove Image</button>
+    </div>
+    <div class="form-group">
+        <label for="briefDescription">Brief Description</label>
+        <textarea class="form-control" id="briefDescription" name="briefDescription" required>@Model.briefdescription</textarea>
+    </div>
+    <div class="form-group">
+        <label for="CategoryId">Category Id</label>
+        <textarea class="form-control" id="CategoryId" name="CategoryId" required>@Model.CategoryId</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+
+<script>
+    const imageInput = document.getElementById('imageInput');
+    const previewImage = document.getElementById('previewImage');
+    const removeImageButton = document.getElementById('removeImageButton');
+
+    imageInput.addEventListener('change', function (event) {
+        const file = event.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                previewImage.src = e.target.result;
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+
+    removeImageButton.addEventListener('click', function () {
+        imageInput.value = '';
+        previewImage.src = '@Model.ImageUrl';
+    });
+</script>
+
+<style>
+    .edit-form {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    textarea,
+    input[type="file"],
+    input[type="date"] {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+
+    button[type="submit"] {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        button[type="submit"]:hover {
+            background-color: #0062cc;
+        }
+
+    .image-preview {
+        display: block;
+        max-width: 200px;
+        margin-bottom: 10px;
+    }
+
+    #removeImageButton {
+        margin-top: 10px;
+    }
+</style>

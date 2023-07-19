@@ -1,0 +1,10 @@
+﻿@model TaskProject.Data.Entities.Product
+
+<h1>Delete Confirmation</h1>
+<p>Are you sure you want to delete the product:</p>>
+
+<form method="post" action="@Url.Action("Delete", "Product", new { id = 2 })">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="_method" value="DELETE" />
+    <button type="submit" class="delete-btn">Delete</button>
+</form>

@@ -1,0 +1,92 @@
+﻿@{
+    Layout = "_Layout";
+}
+@model List<TaskProject.Core.Features.Products.Queries.Results.GetProductListResponse>
+
+<style>
+    h1 {
+        font-size: 24px;
+        margin-bottom: 16px;
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    th, td {
+        text-align: left;
+        padding: 8px;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    tr:hover {
+        background-color: #e6e6e6;
+    }
+    .actions a {
+        margin-right: 8px;
+        text-decoration: none;
+        color: #333;
+        background-color: #f2f2f2;
+        padding: 6px 10px;
+        border-radius: 4px;
+    }
+    .actions a:hover {
+        background-color: #e6e6e6;
+    }
+    .add-new-btn {
+        margin-top: 16px;
+    }
+</style>
+
+<h1>Products</h1>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Available Quantity</th>
+        <th>Quantity Limit</th>
+        <th>Image URL</th>
+        <th>Brief Description</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var product in Model)
+    {
+        <tr>
+            <td>@product.Name</td>
+            <td>@product.Price</td>
+            <td>@product.Availablequantity</td>
+            <td>@product.Quantitylimit</td>
+            <td>@product.ImageUrl</td>
+            <td>@product.briefdescription</td>
+            <td class="actions">
+                <a href="@Url.Action("Edit", "Product", new { productId = product.Id })">Edit</a>
+                <a href="#" onclick="deleteProduct(event, @product.Id)">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+
+<div class="add-new-btn">
+    <a href="@Url.Action("AddProduct", "Product")">Add New Product</a>
+</div>
+<script>
+    function deleteProduct(event, productId) {
+        event.preventDefault();
+        if (confirm('Are you sure you want to delete this product?')) {
+            var form = document.createElement('form');
+            form.method = 'post';
+            form.action = 'delete/' + productId;
+            form.innerHTML = '<input type="hidden" name="_method" value="DELETE" />';
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+</script>
+
+
+
